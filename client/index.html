@@ -11,6 +11,10 @@
 <body>
     
     <div class="main">
+        <div class="timer">
+            <p id="time-left">the time left : 10</p>
+        </div>
+
         <canvas id="canvas" width="600" height="400"></canvas>
 
         <div class="tools">
@@ -19,10 +23,13 @@
             <button id="size-up">+</button>
             <input  type="color" id="color" />
             <button id="clear">X</button>
-            <button id="save">Save</button>
-            <button id="load">Load</button>
-        
+            <button id="draw">draw</button>
+
         </div>
-        
+    </div>
+    <!-- <div class="login">
+        <p>This is your game code  : </p>
+        <p id="game-id"></p>
+    </div>  -->
         <script type="module" src="script.js"></script>
 </html>

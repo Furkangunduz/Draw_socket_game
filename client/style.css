@@ -21,9 +21,12 @@ canvas {
 }
 .tools {
     margin-top: 50px;
+    padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border:5px solid;
+    border-radius: 30px;
 }
 button,
 span{
@@ -44,4 +47,18 @@ input{
     padding :10px;
     font-size: 1.5rem;
     border-radius: 30%;
+}
+
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:fixed;
+    left:0;
+    bottom:0;
+    top:0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: White;
+    font-size: 2rem;
 }

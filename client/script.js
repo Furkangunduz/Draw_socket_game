@@ -1,28 +1,40 @@
-import {io} from "socket.io-client";
-const socket = io("http://localhost:3000")
-
-
 const canvas = document.getElementById("canvas");
 const ctx    = canvas.getContext("2d");
-
-// const canvas2 = document.getElementById("canvas2");
-// const ctx2    = canvas2.getContext("2d");
 
 const sizeUpBtn   = document.getElementById("size-up");
 const sizeSpan    = document.getElementById("size");
 const sizeDownBtn = document.getElementById("size-down");
 const colorBtn    = document.getElementById("color");
 const clearBtn    = document.getElementById("clear")
-const saveBtn     = document.getElementById("save");
-const loadBtn     = document.getElementById("load");
+const gameId      = document.getElementById("game-id");
+const drawBtn      = document.getElementById("draw");
 
 
 var size = 5;
 var x ;
 var y ;
 var isPressed = false;
+var isYourTurn = false;
 var color = "#000";
-var SavedImg ;
+
+
+
+//socket
+
+import {io} from "socket.io-client";
+const socket = io("http://localhost:3000")
+
+
+
+socket.on("draw-canvas",(data) => {
+    isYourTurn = data.isYourTurn;
+    draw(data.x,data.y,data.x2,data.y2);
+})
+
+socket.on("change-turn",(data) => {
+    isYourTurn = data.isYourTurn;
+})
+
 
 canvas.addEventListener("mousedown",(e)=>{
     isPressed = true;
@@ -42,19 +54,42 @@ canvas.addEventListener("mouseup",()=>{
 
 
 canvas.addEventListener("mousemove",(e)=>{
-    if(isPressed && (x !=undefined || y != undefined)){
-        const x2 = e.offsetX;
-        const y2 = e.offsetY;
-
-        drawCircle(x2, y2);
-        drawLine(x, y,x2, y2)
-
-        x = x2;
-        y = y2;
-        // ctx2.drawImage(canvas,0,0);
+    if(isYourTurn){
+        if(isPressed && (x !=undefined || y != undefined)){
+            const x2 = e.offsetX;
+            const y2 = e.offsetY;
+            
+            draw(x,y,x2,y2);
+            x = x2;
+            y = y2;
+        }
+        
     }
 })
 
+
+
+
+
+function draw(x,y,x2,y2){
+    
+        drawCircle(x2, y2);
+        drawLine(x, y,x2, y2)
+
+        if(isYourTurn){
+            var data ={
+                "x":x,
+                "y":y,
+                "x2":x2,
+                "y2":y2,
+            }
+            socket.emit("mouse-move",data)
+        }
+
+        x = x2;
+        y = y2;
+
+    }
 
 function drawCircle(x,y){
     ctx.beginPath();
@@ -101,16 +136,15 @@ colorBtn.addEventListener("change",(e)=>{
 
 clearBtn.addEventListener("click",()=>{
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // ctx2.clearRect(0, 0, canvas.width, canvas.height);
 
 })
 
-// saveBtn.addEventListener("click",() => {
-    
-// })
+drawBtn.addEventListener("click",() => {
+    isYourTurn = !isYourTurn;
+    socket.emit("change-turn",{"isYourTurn":!isYourTurn})  
+})
 
-// loadBtn.addEventListener("click",()=>{
-//     ctx2.clearRect(0, 0, canvas.width, canvas.height);
-//     ctx2.drawImage(canvas,0,0);
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-// })
+
+
+
+
