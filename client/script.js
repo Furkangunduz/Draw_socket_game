@@ -7,7 +7,10 @@ const sizeDownBtn = document.getElementById("size-down");
 const colorBtn    = document.getElementById("color");
 const clearBtn    = document.getElementById("clear")
 const gameId      = document.getElementById("game-id");
-const drawBtn      = document.getElementById("draw");
+const drawBtn     = document.getElementById("draw");
+const timeLeft    = document.getElementById("time-left");
+const startBtn    = document.getElementById("start")
+const startScreen = document.getElementById("start-screen")
 
 
 var size = 5;
@@ -16,6 +19,7 @@ var y ;
 var isPressed = false;
 var isYourTurn = false;
 var color = "#000";
+var time = 10;
 
 
 
@@ -27,12 +31,23 @@ const socket = io("http://localhost:3000")
 
 
 socket.on("draw-canvas",(data) => {
-    isYourTurn = data.isYourTurn;
     draw(data.x,data.y,data.x2,data.y2);
+    color = data.color;
 })
 
 socket.on("change-turn",(data) => {
     isYourTurn = data.isYourTurn;
+})
+
+socket.on("game-started",() => {
+    startScreen.classList.add("hidden");
+})
+
+socket.on("time",(data) => {
+    console.log(data.time)
+    if(data.time == 0) changeTurn();
+    timeLeft.innerText = `time left :${data.time}`;
+    
 })
 
 
@@ -70,7 +85,6 @@ canvas.addEventListener("mousemove",(e)=>{
 
 
 
-
 function draw(x,y,x2,y2){
     
         drawCircle(x2, y2);
@@ -82,6 +96,7 @@ function draw(x,y,x2,y2){
                 "y":y,
                 "x2":x2,
                 "y2":y2,
+                "color":color,
             }
             socket.emit("mouse-move",data)
         }
@@ -106,6 +121,11 @@ function drawLine(x1,y1,x2,y2){
     ctx.strokeStyle = color;
     ctx.lineWidth =size*2
     ctx.stroke();
+}
+
+function changeTurn(){
+    isYourTurn = !isYourTurn;
+    socket.emit("change-turn",{"isYourTurn":!isYourTurn})
 }
 
 
@@ -140,8 +160,13 @@ clearBtn.addEventListener("click",()=>{
 })
 
 drawBtn.addEventListener("click",() => {
-    isYourTurn = !isYourTurn;
-    socket.emit("change-turn",{"isYourTurn":!isYourTurn})  
+    changeTurn();
+})
+
+startBtn.addEventListener("click",() => {
+    startScreen.classList.add("hidden");
+    changeTurn(); 
+    socket.emit("game-started")
 })
 
 
