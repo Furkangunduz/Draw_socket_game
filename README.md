@@ -11,4 +11,4 @@ I challenged myselft to make online app.
 * if it is not your turn you cant draw.
  
 - - - -
-You can play on "https://kraldragon-client.herokuapp.com/".
+You can play on "https://kraldragon-client2.herokuapp.com/".
