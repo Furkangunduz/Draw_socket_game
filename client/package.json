@@ -4,15 +4,16 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "start": "snowpack dev"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "snowpack": "^3.8.8"
-  },
   "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "nodemon": "^2.0.15",
+    "snowpack": "^3.8.8",
     "socket.io-client": "^4.4.1"
   }
 }

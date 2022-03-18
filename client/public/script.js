@@ -13,21 +13,16 @@ const startBtn    = document.getElementById("start")
 const startScreen = document.getElementById("start-screen")
 
 
-var size = 5;
+var size = 2;
 var x ;
 var y ;
 var isPressed = false;
 var isYourTurn = false;
 var color = "#000";
-var time = 10;
+var gameStarted = false;
+var time =15; 
 
-
-
-//socket
-
-import {io} from "socket.io-client";
-const socket = io("http://localhost:3000")
-
+const socket = io(`https://kraldragon-server.herokuapp.com/`)
 
 
 socket.on("draw-canvas",(data) => {
@@ -41,14 +36,32 @@ socket.on("change-turn",(data) => {
 
 socket.on("game-started",() => {
     startScreen.classList.add("hidden");
+    gameStarted = true;
+    timer();
+    console.log("time started");
 })
 
-socket.on("time",(data) => {
-    console.log(data.time)
-    if(data.time == 0) changeTurn();
-    timeLeft.innerText = `time left :${data.time}`;
+// socket.on("time",(data) => {
+//     console.log(data.time)
+//     if(data.time == 0) changeTurn();
+//     timeLeft.innerText = `time left :${data.time}`;
+// })
+
+
     
-})
+    
+
+function timer(){
+    setInterval(() => {
+    if(time <= 0){
+        time = 15;
+        changeTurn();
+    }else{
+        time--;
+        timeLeft.innerText = `time left :${time}`;
+    }
+  },1000)
+}
 
 
 canvas.addEventListener("mousedown",(e)=>{
@@ -66,6 +79,16 @@ canvas.addEventListener("mouseup",()=>{
     x = undefined;
     y = undefined;    
 })
+
+canvas.addEventListener("touchmove", function (e) {
+    var touch = e.touches[0];
+    var mouseEvent = new MouseEvent("mousemove", {
+      clientX: touch.clientX,
+      clientY: touch.clientY
+    });
+    canvas.dispatchEvent(mouseEvent);
+  }, false);
+
 
 
 canvas.addEventListener("mousemove",(e)=>{
@@ -141,8 +164,8 @@ sizeUpBtn.addEventListener("click", ()=>{
 
 sizeDownBtn.addEventListener("click", ()=>{
     size--;
-    if (size < 5) {
-        size = 5;
+    if (size < 2) {
+        size = 2;
     }
     const sizeText = size.toString().padStart(2,"0");
     sizeSpan.innerText = `${sizeText}`
@@ -160,13 +183,15 @@ clearBtn.addEventListener("click",()=>{
 })
 
 drawBtn.addEventListener("click",() => {
-    changeTurn();
+    //changeTurn();
 })
 
 startBtn.addEventListener("click",() => {
     startScreen.classList.add("hidden");
     changeTurn(); 
     socket.emit("game-started")
+    gameStarted = true;
+    timer();
 })
 
 

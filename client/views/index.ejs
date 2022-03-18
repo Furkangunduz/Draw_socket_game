@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Document</title>
+    
+</head>
+<body>
+    
+    <div class="main">
+        <div class="timer">
+            <p id="time-left">time left :15</p>
+        </div>
+
+        <canvas id="canvas" width="800" height="550"></canvas>
+
+        <div class="tools">
+            <button id="size-down">-</button>
+            <span   id="size">02</span>
+            <button id="size-up">+</button>
+            <input  type="color" id="color" />
+            <button id="clear">X</button>
+        </div>
+    </div>
+    <div class="start-screen" id="start-screen">
+        <div class="info">
+            <h2>DRAWİNG GAME</h2>
+            <p>Game will start when you press Start.</p>
+            <p>Every player has 15 seconds to draw.</p>
+            <p>The turn will change every time the counter is zero.</p>
+        </div>
+        <button id="start" >start</button>
+
+    </div> 
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+    <script type="module" src="/script.js"></script>
+</html>

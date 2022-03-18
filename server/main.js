@@ -1,8 +1,18 @@
-const io = require("socket.io")(3000,{
-  cors:{
-    origin:["http://localhost:8080"],
-  },
-});
+const express = require("express")
+const app = express();
+const PORT = process.env.PORT || 3000
+const server = app.listen(PORT)
+const io = require("socket.io")(server,{ 
+    cors: {    
+      origin: "*",    
+      methods: ["GET", "POST"]  
+    }
+  });
+
+app.get("/",(req,res) => {
+  res.send("hello")
+})
+
 
 
 io.on("connection", (socket) => {
@@ -16,18 +26,7 @@ io.on("connection", (socket) => {
   })
   socket.on("game-started",() => {
     socket.broadcast.emit("game-started")
-    timer();
   })
 });
-
-var time =3; 
-
-function timer(){
-  setInterval(() => {
-    io.emit("time",{"time":time});
-    if(time == 0) time =3;
-    time--;
-  },1250)
-}
 
 

@@ -20,7 +20,7 @@ canvas {
     
 }
 .tools {
-    margin-top: 50px;
+    margin-top: 20px;
     padding: 15px;
     display: flex;
     justify-content: center;
@@ -32,27 +32,28 @@ button,
 span{
     margin-left: 15px;
     border: none;
-    background-color: rgb(214, 181, 157);
+    background-color: rgb(221, 200, 185);
     color: rgb(0, 0, 0);
-    padding: 10px;
+    padding: 20px;
     font-size: 1.5rem;
-    border-radius: 30%;
+    border-radius: 20%;
 }
 input{
     margin-left: 15px;
     border: none;
-    background-color: rgb(214, 181, 157);
+    background-color: rgb(221, 200, 185);
     color: rgb(0, 0, 0);
-    height: 50px;
-    padding :10px;
+    height: 70px;
+    padding : 15px 10px;
     font-size: 1.5rem;
-    border-radius: 30%;
+    border-radius: 20%;
 }
 
 .start-screen{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     position:fixed;
     left:0;
     bottom:0;
@@ -66,4 +67,27 @@ input{
 .start-screen.hidden{
     opacity: 0;
     pointer-events: none;
+}
+
+button[id="start"]{
+    margin-top: 50px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: White;
+    border-radius: 10px;
+    border: 5px solid;
+    padding: 10px 50px;
+}
+
+button[id="start"]:hover{
+    background-color: White;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.info{
+    text-align: center;
+    line-height: 3rem;
+}
+
+.info h2{
+    margin-bottom: 50px;
 }
