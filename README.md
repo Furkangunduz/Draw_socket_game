@@ -10,5 +10,7 @@ I challenged myselft to make online app.
 * The turn will change every time the counter is zero.
 * if it is not your turn you cant draw.
  
+![game-gif](https://github.com/Furkangunduz/socket.io-drawingApp/blob/master/a.gif)
+ 
 - - - -
 You can play on "https://kraldragon-client2.herokuapp.com/".
